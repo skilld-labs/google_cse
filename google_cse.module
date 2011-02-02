@@ -266,6 +266,7 @@ function google_cse_form_search_form_alter(&$form, &$form_state, $form_id) {
     if (variable_get('google_cse_results_gadget', 1)) {
       $form['basic']['op']['#suffix'] = theme('google_cse_results_gadget');
     }
+    google_cse_sitesearch_form($form);
     $form['#submit'][] = 'google_cse_search_form_submit';
     $form['#attributes']['class'][] = 'google-cse';
   }
@@ -276,7 +277,8 @@ function google_cse_form_search_form_alter(&$form, &$form_state, $form_id) {
  */
 function google_cse_search_form_submit($form, &$form_state) {
   $keys = $form_state['values']['processed_keys'];
-  $form_state['redirect'] = array($form_state['redirect'], array('query' => google_cse_build_query($keys)), 301);
+  $sitesearch = isset($form_state['values']['sitesearch']) ? $form_state['values']['sitesearch'] : NULL;
+  $form_state['redirect'] = array($form_state['redirect'], array('query' => google_cse_build_query($keys, $sitesearch)), 301);
 }
 
 /**
@@ -285,6 +287,7 @@ function google_cse_search_form_submit($form, &$form_state) {
 function google_cse_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $info = search_get_default_module_info();
   if ($info['module'] == 'google_cse') {
+    google_cse_sitesearch_form($form);
     $form['#attributes']['class'][] = 'google-cse';
     $form['#submit'][] = 'google_cse_search_block_form_submit';
   }
@@ -295,5 +298,6 @@ function google_cse_form_search_block_form_alter(&$form, &$form_state, $form_id)
  */
 function google_cse_search_block_form_submit($form, &$form_state) {
   $keys = trim($form_state['values'][$form['form_id']['#value']]);
-  $form_state['redirect'] = array($form_state['redirect'], array('query' => google_cse_build_query($keys)), 301);
+  $sitesearch = isset($form_state['values']['sitesearch']) ? $form_state['values']['sitesearch'] : NULL;
+  $form_state['redirect'] = array($form_state['redirect'], array('query' => google_cse_build_query($keys, $sitesearch)), 301);
 }
