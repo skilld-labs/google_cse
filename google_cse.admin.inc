@@ -23,61 +23,21 @@ function google_cse_admin_settings() {
     '#default_value' => variable_get('google_cse_cx', ''),
     '#description' => t('Enter your alphanumeric <a target="_blank" href="http://www.google.com/coop/manage/cse/">Google Custom Search Engine ID</a> (click on control panel and then click on code; the only part you need is the <em>cx</em> value).'),
   );
-  $form['google_cse']['google_cse_results_display'] = array(
-    '#title' => t('Display search results'),
-    '#type' => 'radios',
-    '#default_value' => variable_get('google_cse_results_display', 'here'),
-    '#options' => array(
-      'here' => t('On this site (requires JavaScript)'),
-      'google' => t('On Google'),
-    ),
-    '#description' => t('Search results can be displayed on this site, using JavaScript, or on Google, which does not require JavaScript.'),
-  );
   $form['google_cse']['google_cse_results_tab'] = array(
     '#title' => t('Search results tab name'),
     '#type' => 'textfield',
     '#maxlength' => 50,
-    '#size' => 60, 
-    '#description' => t('Enter a custom name of the tab where search results are displayed (defaults to %google). The tab only appears if the Search module is enabled.', array('%google' => t('Google'))),
+    '#size' => 60,
+    '#description' => t('Enter a custom name of the tab where search results are displayed (defaults to %google).', array('%google' => t('Google'))),
     '#default_value' => variable_get('google_cse_results_tab', ''),
   );
-  $form['google_cse']['google_cse_results_prefix'] = array(
-    '#title' => t('Search results prefix text'),
-    '#type' => 'textarea',
-    '#cols' => 50,
-    '#rows' => 4,
-    '#description' => t('Enter text to appear on the search page before the search form.'),
-    '#default_value' => variable_get('google_cse_results_prefix', ''),
-  );
-  $form['google_cse']['google_cse_results_suffix'] = array(
-    '#title' => t('Search results suffix text'),
-    '#type' => 'textarea',
-    '#cols' => 50,
-    '#rows' => 4,
-    '#description' => t('Enter text to appear on the search page after the search form and results.'),
-    '#default_value' => variable_get('google_cse_results_suffix', ''),
-  );
-  $form['google_cse']['google_cse_sitesearch'] = array(
-    '#title' => t('SiteSearch domain'),
-    '#type' => 'textarea',
-    '#cols' => 50,
-    '#rows' => 4,
-    '#description' => t('If set, users will be presented with the option of searching only on the domain(s) specified rather than using the CSE. Enter one domain or URL path followed by a description (e.g. <em>example.com/user Search users</em>) on each line.'),
-    '#default_value' => variable_get('google_cse_sitesearch', ''),
-  );
-  $form['google_cse']['google_cse_sitesearch_option'] = array(
-    '#title' => t('CSE search option label'),
+  $form['google_cse']['google_cse_results_width'] = array(
+    '#title' => t('Search results frame width'),
     '#type' => 'textfield',
-    '#maxlength' => 50,
-    '#size' => 60,
-    '#description' => t('Customize the label for CSE search if SiteSearch is enabled (defaults to %search-web).', array('%search-web' => t('Search the web'))),
-    '#default_value' => variable_get('google_cse_sitesearch_option', ''),
-  );
-  $form['google_cse']['google_cse_sitesearch_default'] = array(
-    '#title' => t('Default to using the SiteSearch domain'),
-    '#type' => 'checkbox',
-    '#description' => t('If set, searches will default to using the first listed SiteSearch domain rather than the CSE.'),
-    '#default_value' => variable_get('google_cse_sitesearch_default', 0),
+    '#maxlength' => 4,
+    '#size' => 6,
+    '#description' => t('Enter the desired width, in pixels, of the search frame.'),
+    '#default_value' => variable_get('google_cse_results_width', 600),
   );
   $form['google_cse']['google_cse_cof_here'] = array(
     '#title' => t('Ad format on this site'),
@@ -100,40 +60,93 @@ function google_cse_admin_settings() {
     ),
     '#description' => t('AdSense ads are also displayed when the CSE links or redirects to Google.'),
   );
-  $form['google_cse']['google_cse_results_searchbox_width'] = array(
-    '#title' => t('Search results searchbox width'),
-    '#type' => 'textfield',
-    '#maxlength' => 4,
-    '#size' => 6,
-    '#description' => t('Enter the desired width, in characters, of the searchbox when displayed on the results page.'),
-    '#default_value' => variable_get('google_cse_results_searchbox_width', 40),
-  );
-  $form['google_cse']['google_cse_results_width'] = array(
-    '#title' => t('Search results frame width'),
-    '#type' => 'textfield',
-    '#maxlength' => 4,
-    '#size' => 6,
-    '#description' => t('Enter the desired width, in pixels, of the search frame.'),
-    '#default_value' => variable_get('google_cse_results_width', 600),
-  );
   $form['google_cse']['google_cse_results_gadget'] = array(
     '#title' => t('Search results "Add to Google" Google Gadget'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('google_cse_results_gadget', 1),
     '#description' => t('If enabled, an "Add to Google" button will be displayed above the search results.'),
   );
-  $form['google_cse']['google_cse_domain'] = array(
-    '#title' => t('Search domain'),
+  $form['google_cse']['google_cse_results_prefix'] = array(
+    '#title' => t('Search results prefix text'),
+    '#type' => 'textarea',
+    '#cols' => 50,
+    '#rows' => 4,
+    '#description' => t('Enter text to appear on the search page before the search form.'),
+    '#default_value' => variable_get('google_cse_results_prefix', ''),
+  );
+  $form['google_cse']['google_cse_results_suffix'] = array(
+    '#title' => t('Search results suffix text'),
+    '#type' => 'textarea',
+    '#cols' => 50,
+    '#rows' => 4,
+    '#description' => t('Enter text to appear on the search page after the search form and results.'),
+    '#default_value' => variable_get('google_cse_results_suffix', ''),
+  );
+  $form['google_cse']['google_cse_results_searchbox_width'] = array(
+    '#title' => t('Google CSE block searchbox width'),
     '#type' => 'textfield',
-    '#maxlength' => 64,
-    '#description' => t('Enter the Google domain to use for search results, e.g. <em>www.google.com</em>.'),
-    '#default_value' => variable_get('google_cse_domain', 'www.google.com'),
+    '#maxlength' => 4,
+    '#size' => 6,
+    '#description' => t('Enter the desired width, in characters, of the searchbox on the Google CSE block.'),
+    '#default_value' => variable_get('google_cse_results_searchbox_width', 40),
+  );
+  $form['google_cse']['google_cse_results_display'] = array(
+    '#title' => t('Display search results'),
+    '#type' => 'radios',
+    '#default_value' => variable_get('google_cse_results_display', 'here'),
+    '#options' => array(
+      'here' => t('On this site (requires JavaScript)'),
+      'google' => t('On Google'),
+    ),
+    '#description' => t('Search results for the Google CSE block can be displayed on this site, using JavaScript, or on Google, which does not require JavaScript.'),
+  );
+  $form['google_cse']['sitesearch'] = array(
+    '#title' => t('SiteSearch settings'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['google_cse']['sitesearch']['google_cse_sitesearch'] = array(
+    '#title' => t('SiteSearch domain'),
+    '#type' => 'textarea',
+    '#cols' => 50,
+    '#rows' => 4,
+    '#description' => t('If set, users will be presented with the option of searching only on the domain(s) specified rather than using the CSE. Enter one domain or URL path followed by a description (e.g. <em>example.com/user Search users</em>) on each line.'),
+    '#default_value' => variable_get('google_cse_sitesearch', ''),
+  );
+  $form['google_cse']['sitesearch']['google_cse_sitesearch_form'] = array(
+    '#title' => t('SiteSearch form element'),
+    '#type' => 'radios',
+    '#options' => array('radios' => t('Radio buttons'), 'select' => t('Select')),
+    '#description' => t('Select the type of form element used to present the SiteSearch option(s).'),
+    '#default_value' => variable_get('google_cse_sitesearch_form', 'radios'),
+  );
+  $form['google_cse']['sitesearch']['google_cse_sitesearch_option'] = array(
+    '#title' => t('CSE search option label'),
+    '#type' => 'textfield',
+    '#maxlength' => 50,
+    '#size' => 60,
+    '#description' => t('Customize the label for CSE search if SiteSearch is enabled (defaults to %search-web).', array('%search-web' => t('Search the web'))),
+    '#default_value' => variable_get('google_cse_sitesearch_option', ''),
+  );
+  $form['google_cse']['sitesearch']['google_cse_sitesearch_default'] = array(
+    '#title' => t('Default to using the SiteSearch domain'),
+    '#type' => 'checkbox',
+    '#description' => t('If set, searches will default to using the first listed SiteSearch domain rather than the CSE.'),
+    '#default_value' => variable_get('google_cse_sitesearch_default', 0),
   );
   $form['google_cse']['advanced'] = array(
     '#title' => t('Advanced settings'),
     '#type' => 'fieldset',
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
+  );
+  $form['google_cse']['advanced']['google_cse_domain'] = array(
+    '#title' => t('Search domain'),
+    '#type' => 'textfield',
+    '#maxlength' => 64,
+    '#description' => t('Enter the Google domain to use for search results, e.g. <em>www.google.com</em>.'),
+    '#default_value' => variable_get('google_cse_domain', 'www.google.com'),
   );
   $form['google_cse']['advanced']['google_cse_cr'] = array(
     '#title' => t('Country restriction'),

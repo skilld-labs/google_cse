@@ -3,7 +3,7 @@
 
 /**
  * @file
- * Display a Google Custom Search Engine on your site.
+ * Display a Google Custom Search Engine (CSE) on your site.
  */
 
 /**
@@ -26,7 +26,7 @@ function google_cse_conditions_callback($keys) {
 }
 
 /**
- * Implements hook_search_page().
+ * Implements hook_search_execute().
  */
 function google_cse_search_execute($keys = NULL, $conditions = NULL) {
   if ($keys && !isset($_GET['query'])) {
@@ -37,11 +37,11 @@ function google_cse_search_execute($keys = NULL, $conditions = NULL) {
 /**
  * Builds a query array based on Google CSE settings.
  */
-function google_cse_build_query($keys, $sitesearch = NULL) {
+function google_cse_build_query($keys, $sitesearch = NULL, $here = TRUE) {
   return array(
     'query' => $keys,
     'cx' => variable_get('google_cse_cx', ''),
-    'cof' => variable_get('google_cse_cof_here', 'FORID:11'),
+    'cof' => $here ? variable_get('google_cse_cof_here', 'FORID:11') : variable_get('google_cse_cof_google', 'FORID:0'),
     'sitesearch' => isset($sitesearch) ? $sitesearch : google_cse_sitesearch_default(),
   ) + google_cse_advanced_settings();
 }
@@ -50,7 +50,7 @@ function google_cse_build_query($keys, $sitesearch = NULL) {
  * Implements hook_search_page().
  */
 function google_cse_search_page($results) {
-  $output[]['#theme'] = 'google_cse_results';
+  $output['#theme'] = 'google_cse_results';
   return $output;
 }
 
@@ -92,8 +92,8 @@ function google_cse_theme($existing, $type, $theme, $path) {
  */
 function google_cse_block_info() {
   return array(
-    'google_cse_results' => array(
-      'info' => t('Google CSE search form and results'),
+    'google_cse' => array(
+      'info' => t('Google CSE'),
     ),
   );
 }
@@ -101,57 +101,13 @@ function google_cse_block_info() {
 function google_cse_block_view($delta = '') {
   if (user_access('search Google CSE')) {
     switch ($delta) {
-      case 'google_cse_results':
+      case 'google_cse':
         return array(
           'subject' => t('Search'),
           'content' => array('#theme' => 'google_cse_results', '#form' => TRUE),
         );
     }
   }
-}
-
-/**
- * Form builder for the searchbox forms.
- */
-function google_cse_results_searchbox_form($form, &$form_state) {
-  $form = array();
-  if (variable_get('google_cse_results_display', 'here') == 'here') {
-    $cof = variable_get('google_cse_cof_here', 'FORID:11');
-  }
-  else {
-    $form['#action'] = 'http://'. variable_get('google_cse_domain', 'www.google.com') .'/cse';
-    $cof = variable_get('google_cse_cof_google', 'FORID:0');
-  }
-  $form['#method'] = 'get';
-  $form['cx'] = array(
-    '#type' => 'hidden',
-    '#value' => variable_get('google_cse_cx', ''),
-  );
-  $form['cof'] = array(
-    '#type' => 'hidden',
-    '#value' => $cof,
-  );
-  $form['query'] = array(
-    '#type' => 'textfield',
-    '#default_value' => isset($_GET['query']) ? $_GET['query'] : '',
-  );
-  $form['sa'] = array(
-    '#type' => 'submit',
-    '#value' => t('Search'),
-  );
-  foreach (google_cse_advanced_settings() as $parameter => $setting) {
-    $form[$parameter] = array(
-      '#type' => 'hidden',
-      '#value' => $setting,
-    );
-  }
-  $form['query']['#size'] = intval(variable_get('google_cse_results_searchbox_width', 40));
-  $form['query']['#title'] = t('Enter your keywords');
-  if (variable_get('google_cse_results_gadget', 1)) {
-    $form['sa']['#suffix'] = theme('google_cse_results_gadget');
-  }
-  google_cse_sitesearch_form($form);
-  return $form;
 }
 
 /**
@@ -167,7 +123,7 @@ function google_cse_results_tab() {
 function google_cse_permission() {
   return array(
     'search Google CSE' => array(
-      'title' => t('Use Google Custom Search'),
+      'title' => t('Use Google CSE'),
     ),
   );
 }
@@ -201,7 +157,6 @@ function google_cse_language() {
  * Implements hook_init().
  */
 function google_cse_init() {
-  global $language;
   drupal_add_js(array('googleCSE' => array(
     'cx' => variable_get('google_cse_cx', ''),
     'language' => google_cse_language(),
@@ -214,24 +169,10 @@ function google_cse_init() {
  * Returns SiteSearch options form item.
  */
 function google_cse_sitesearch_form(&$form) {
-  if ($sites = preg_split('/[\n\r]+/', variable_get('google_cse_sitesearch', ''), -1, PREG_SPLIT_NO_EMPTY)) {
-    $type = (count($sites) > 1) ? 'select' : 'radios';
-    foreach ($sites as $site) {
-      $site = preg_split('/[\s]+/', trim($site), 2, PREG_SPLIT_NO_EMPTY);
-      if ($type == 'radios') {
-        // Unlike select options, we need to HTML-escape radios options (both return values and display values).
-        $options[check_plain($site[0])] = isset($site[1]) ? check_plain($site[1]) : t('Search %sitesearch', array('%sitesearch' => $site[0]));
-      }
-      else {
-        // Select options will be HTML-escaped for us.
-        $options[$site[0]] = isset($site[1]) ? $site[1] : t('Search !sitesearch', array('!sitesearch' => $site[0]));
-      }
-    }
+  if ($options = google_cse_sitesearch_options()) {
     $form['sitesearch'] = array(
-      '#type' => $type,
-      '#options' => array(
-        '' => ($var = variable_get('google_cse_sitesearch_option', '')) ? (($type == 'radios') ? check_plain($var) : $var) : t('Search the web'),
-      ) + $options,
+      '#type' => variable_get('google_cse_sitesearch_form', 'radios'),
+      '#options' => $options,
       '#default_value' => google_cse_sitesearch_default(),
     );
     if ($type == 'select' && isset($form['sa'])) {
@@ -241,19 +182,37 @@ function google_cse_sitesearch_form(&$form) {
 }
 
 /**
+ * Returns SiteSearch options.
+ */
+function google_cse_sitesearch_options() {
+  static $options;
+  if (!isset($options)) {
+    $options = array();
+    if ($sites = preg_split('/[\n\r]+/', variable_get('google_cse_sitesearch', ''), -1, PREG_SPLIT_NO_EMPTY)) {
+      $options[''] = ($var = variable_get('google_cse_sitesearch_option', '')) ? $var : t('Search the web');
+      foreach ($sites as $site) {
+        $site = preg_split('/[\s]+/', trim($site), 2, PREG_SPLIT_NO_EMPTY);
+          // Select options will be HTML-escaped and radio options will be XSS-filtered.
+        $options[$site[0]] = isset($site[1]) ? $site[1] : t('Search %sitesearch', array('%sitesearch' => $site[0]));
+      }
+    }
+  }
+  return $options;
+}
+
+/**
  * Returns SiteSearch default value.
  */
 function google_cse_sitesearch_default() {
-  $configs = preg_split('/[\n\r]+/', variable_get('google_cse_sitesearch', ''), -1, PREG_SPLIT_NO_EMPTY);
-  foreach ($configs as $config) {
-    $tokens = preg_split('/[\s]+/', $config, 2, PREG_SPLIT_NO_EMPTY);
-    $sites[] = $tokens[0];
-  }
-  if (!empty($_GET['sitesearch']) && in_array($_GET['sitesearch'], $sites)) {
+  $options = google_cse_sitesearch_options();
+  if (isset($_GET['sitesearch']) && isset($options[$_GET['sitesearch']])) {
     return $_GET['sitesearch'];
   }
   elseif (variable_get('google_cse_sitesearch_default', 0)) {
-    return $sites[0];
+    // Return the key of the second element in the array.
+    reset($options);
+    next($options);
+    return key($options);
   }
   return '';
 }
@@ -288,8 +247,8 @@ function google_cse_form_search_block_form_alter(&$form, &$form_state, $form_id)
   $info = search_get_default_module_info();
   if ($info['module'] == 'google_cse') {
     google_cse_sitesearch_form($form);
-    $form['#attributes']['class'][] = 'google-cse';
     $form['#submit'][] = 'google_cse_search_block_form_submit';
+    $form['#attributes']['class'][] = 'google-cse';
   }
 }
 
