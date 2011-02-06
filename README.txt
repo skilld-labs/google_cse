@@ -24,9 +24,10 @@ QUICK SETUP
 -----------
 
 After installing this module, configure it by entering Google's 
-alphanumeric ID for your CSE.  Once you have granted permission for one 
-or more roles to search the Google CSE, the search page can be found at 
-search/google, and a search block can also be enabled.
+alphanumeric ID for your CSE at admin/config/search/settings.  Once you 
+have granted permission for one or more roles to search the Google CSE, 
+the search page can be found at search/google, and a separate search 
+block can also be enabled.
 
 REQUIREMENTS
 ------------
@@ -37,12 +38,12 @@ that clean URLs be enabled.
 BLOCKS
 ------
 
-The two included blocks can be enabled at admin/build/block.  The 
-"Google CSE" block provides a typical search box and redirects to the 
-search/google path.  An additional "Google CSE results" block allows any 
-page on the site to host a self-contained CSE search form and results 
-display.  After entering search terms, the user will be returned to the 
-same page (via GET request) and the results will be displayed.
+The include Google CSE block can optionally be enabled at 
+admin/structure/block.  The "Google CSE" block provides a search box and 
+also displays the search results.  After entering search terms, the user 
+will be returned to the same page (via GET request) and the results will 
+be displayed.  Do not allow this Google CSE block to appear on the 
+search/google page, as the search results will fail to display.
 
 SITESEARCH
 ----------
@@ -51,14 +52,6 @@ In addition to the CSE functionality, SiteSearch on one or more domains
 or URL paths can optionally be configured.  Radio buttons allow users to 
 search on either the SiteSearch option(s) or the CSE, and searches can 
 default to either option.
-
-SEARCH MODULE INTEGRATION
--------------------------
-
-The "Google CSE search" module is an optional glue module that 
-integrates Google CSE with the Drupal core search API.  After enabling 
-this module, search queries will be logged by the Search module and 
-users can click between available search tabs such as search/node.
 
 ADVANCED SETTINGS
 -----------------
@@ -72,15 +65,13 @@ INSTALLATION
 ------------
 
 Place the google_cse directory in your sites/all/modules directory.  
-Enable the Google CSE module at admin/build/modules, configure it at 
-admin/settings/google_cse, assign permissions for "search Google CSE" at 
-admin/user/permissions, and enable the "Google CSE" block at 
-admin/build/block.
+Enable the Google CSE module at admin/modules, configure it at 
+admin/config/search/settings, and assign permissions for "search Google 
+CSE" at admin/people/permissions.
 
-To configure this module, you will need your CSE's alphanumeric ID 
-("cx").  Go to your CSE manage page on Google.com, click on control 
-panel and then click on code.  The only part you need is the cx value; 
-to isolate it you'll have to copy/paste the code into a text editor.
+To configure this module, you will need your CSE's unique ID.  Go to 
+http://www.google.com/cse/manage/all, click on control panel and you 
+will find the "Search engine unique ID" under "Basic information".
 
 MAINTAINERS
 -----------
