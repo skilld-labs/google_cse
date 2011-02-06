@@ -18,7 +18,7 @@ OVERVIEW
 
 Google Custom Search Engine (CSE) is an embedded search engine that can 
 be used to search any set of one or more sites.  No Google API key is 
-required.  More info at http://www.google.com/coop/cse/
+required.  Read more at http://www.google.com/cse/.
 
 QUICK SETUP
 -----------
