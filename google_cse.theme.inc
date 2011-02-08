@@ -35,10 +35,11 @@ function template_preprocess_google_cse_results_gadget(&$variables) {
  * Validate GET parameters to avoid displaying inappropriate search results.
  */
 function google_cse_validate_request() {
-  return (empty($_GET['cx']) || $_GET['cx'] == variable_get('google_cse_cx', '')) &&
+  return (
+    (empty($_GET['cx']) || $_GET['cx'] == variable_get('google_cse_cx', '')) &&
     (empty($_GET['safe']) || $_GET['safe'] == variable_get('google_cse_safe', '')) &&
     (empty($_GET['sitesearch']) || (($options = google_cse_sitesearch_options()) && isset($options[$_GET['sitesearch']])))
-    ? TRUE : FALSE;
+  ) ? TRUE : FALSE;
 }
 
 /**
