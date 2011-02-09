@@ -23,11 +23,12 @@ required.  Read more at http://www.google.com/cse/.
 QUICK SETUP
 -----------
 
-After installing this module, configure it by entering Google's 
-alphanumeric ID for your CSE at admin/config/search/settings.  Once you 
-have granted permission for one or more roles to search the Google CSE, 
-the search page can be found at search/google, and a separate search 
-block can also be enabled.
+After installing this module, activate Google CSE at 
+admin/config/search/settings, optionally setting it as the default 
+search module, and configure it by entering Google's unique ID for your 
+CSE.  Once you have granted permission for one or more roles to search 
+the Google CSE, the search page can be found at search/google, and a 
+separate self-contained search block can also be enabled.
 
 REQUIREMENTS
 ------------
