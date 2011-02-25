@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ?>
 
 <div id="google-cse-results-gadget">

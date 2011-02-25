@@ -1,4 +1,3 @@
-; $Id$
 name = "Google CSE"
 description = "Use Google Custom Search to search your site and/or any other sites."
 core = 7.x
