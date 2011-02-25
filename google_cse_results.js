@@ -1,4 +1,3 @@
-// $Id$
 var googleSearchIframeName = 'google-cse-results';
 var googleSearchFormName = 'google-cse-results-searchbox-form';
 var googleSearchFrameWidth = Drupal.settings.googleCSE.resultsWidth;

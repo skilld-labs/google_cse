@@ -1,5 +1,4 @@
 <?php
-// $Id$
 ?>
 
 <?php if ($prefix): ?>
