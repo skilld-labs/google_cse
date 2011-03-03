@@ -1,23 +1,7 @@
 <?php
 
 /**
- * Implementation of hook_requirements().
- */
-function google_cse_requirements($phase) {
-  $t = get_t();
-  $requirements['google_cse_clean_url'] = array(
-    'description' => $t('Google CSE module requires that clean URLs be enabled.'),
-    'severity' => variable_get('clean_url', 0) ? REQUIREMENT_OK : REQUIREMENT_ERROR,
-    'title' => $t('Clean URLs'),
-  );
-  if ($phase == 'runtime') {
-    $requirements['google_cse_clean_url']['value'] = variable_get('clean_url', 0) ? $t('Enabled') : $t('Disabled');
-  }
-  return $requirements;
-}
-
-/**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function google_cse_uninstall() {
   variable_del('google_cse_cof_google');
