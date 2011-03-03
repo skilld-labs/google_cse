@@ -29,12 +29,6 @@ CSE.  Once you have granted permission for one or more roles to search
 the Google CSE, the search page can be found at search/google, and a 
 separate self-contained search block can also be enabled.
 
-REQUIREMENTS
-------------
-
-Due to Google and Drupal both making use of "q", this module requires 
-that clean URLs be enabled.
-
 BLOCKS
 ------
 
