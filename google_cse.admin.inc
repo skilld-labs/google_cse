@@ -147,6 +147,14 @@ function google_cse_admin_settings() {
     '#description' => t('Enter the Google domain to use for search results, e.g. <em>www.google.com</em>.'),
     '#default_value' => variable_get('google_cse_domain', 'www.google.com'),
   );
+  $form['google_cse']['advanced']['google_cse_limit_domain'] = array(
+    '#title' => t('Limit results to this domain'),
+    '#type' => 'textfield',
+    '#maxlength' => 64,
+    '#description' => t('Enter the domain to limit results on
+      (only display results for this domain) <em>www.google.com</em>.'),
+    '#default_value' => variable_get('google_cse_limit_domain', ''),
+  );
   $form['google_cse']['advanced']['google_cse_cr'] = array(
     '#title' => t('Country restriction'),
     '#type' => 'textfield',
@@ -202,5 +210,20 @@ function google_cse_admin_settings() {
     '#default_value' => variable_get('google_cse_safe', ''),
     '#description' => t('SafeSearch filters search results for adult content. See the <a target="_blank" href="http://www.google.com/coop/docs/cse/resultsxml.html#safesp"><em>safe</em> parameter</a>.'),
   );
+
+
+  $form['google_cse_adv'] = array(
+    '#title' => t('Google CSE Advanced'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+    $form['google_cse_adv']['google_cse_use_adv'] = array(
+    '#title' => t('Use advanced, non-adds version, search engine (You will need a pay account)'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('google_cse_use_adv', 0),
+    '#description' => t('If enabled, search results will be fetch using Adv engine.'),
+  );
+
   return $form;
 }
