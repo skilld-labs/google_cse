@@ -8,3 +8,4 @@ files[] = google_cse.admin.inc
 files[] = google_cse.theme.inc
 scripts[] = google_cse.js
 stylesheets[all][] = google_cse.css
+
