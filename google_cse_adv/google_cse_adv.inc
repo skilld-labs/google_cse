@@ -246,7 +246,6 @@ function google_cse_adv_response_results($response, $keys, $conditions) {
     }
 
     // No pager query was executed - we have to set the pager manually
-    dpm('no pager here');
     $limit = variable_get('google_cse_adv_results_per_page', 10);
     pager_default_initialize($total, $limit);
 
