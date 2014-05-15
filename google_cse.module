@@ -73,7 +73,6 @@ function google_cse_search_page($results) {
         );
       }
       // Important, add the pager.
-      dpm('pager added');
       $output['suffix']['#markup'] = '</ol>' . theme('pager');
     }
     else {
