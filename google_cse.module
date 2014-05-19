@@ -59,6 +59,8 @@ function google_cse_build_query($keys, $sitesearch = NULL, $here = TRUE) {
  * Implements hook_search_page().
  */
 function google_cse_search_page($results) {
+  $output['prefix']['#markup'] = '<ol class="search-results">';
+
   if(!variable_get('google_cse_use_adv', 0)) {
     $output['#theme'] = 'google_cse_results';
 
