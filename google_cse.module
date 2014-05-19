@@ -59,11 +59,12 @@ function google_cse_build_query($keys, $sitesearch = NULL, $here = TRUE) {
  * Implements hook_search_page().
  */
 function google_cse_search_page($results) {
-  $output['#theme'] = 'google_cse_results';
+  if(!variable_get('google_cse_use_adv', 0)) {
+    $output['#theme'] = 'google_cse_results';
 
-  if(variable_get('google_cse_use_adv', 0)) {
+    return $output;
+  }else {
     if ($results) {
-      $output['#theme'] = 'google_cse_results';
       foreach ($results as $entry) {
         $output[] = array(
           '#theme' => 'search_result',
