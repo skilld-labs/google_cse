@@ -91,8 +91,8 @@ function google_cse_adv_get_response($url) {
 /**
  * Returns the thumbnail properly themed.
  *
- * @param  string $src
- * @return string      themed thumbnail
+ * @param array $img
+ * @return mixed
  */
 function _google_cse_adv_thumbnail($img) {
   return theme('image', array(
@@ -289,9 +289,8 @@ function google_cse_adv_result_is_accurate($response) {
  * Get the exact (accurate) number of search results to be used in the pager.
  * Otherwise, the pager sometimes will show a different number of pages.
  *
- * @param  string $keys
- * @param  string $conditions
- * @param  int $total
+ * @param $keys
+ * @param $total
  * @return int
  */
 function google_cse_adv_get_accurate_num_of_results($keys, $total) {
