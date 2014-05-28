@@ -59,11 +59,6 @@ function google_cse_build_query($keys, $sitesearch = NULL, $here = TRUE) {
  * Implements hook_search_page().
  */
 function google_cse_search_page($results) {
-  $current_page = $_GET["page"];
-  $number_results = 'Results ' . ($current_page * 10) . ' to ' . ($current_page * 10 + 10)
-    . ' of ' . $GLOBALS['pager_total_items'][0] . ' matches';
-
-  $output['prefix']['#markup'] = $number_results . '<ol class="search-results">';
 
   if (!variable_get('google_cse_use_adv', 0)) {
     $output['#theme'] = 'google_cse_results';
@@ -72,6 +67,12 @@ function google_cse_search_page($results) {
   }
   else {
     if ($results) {
+      $current_page = $_GET["page"];
+      $number_results = 'Results ' . ($current_page * 10) . ' to ' . ($current_page * 10 + 10)
+        . ' of ' . $GLOBALS['pager_total_items'][0] . ' matches';
+
+      $output['prefix']['#markup'] = $number_results . '<ol class="search-results">';
+
       foreach ($results as $entry) {
         $output[] = array(
           '#theme' => 'search_result',
