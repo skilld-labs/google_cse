@@ -116,7 +116,10 @@ function google_cse_admin_settings() {
   $form['google_cse']['sitesearch']['google_cse_sitesearch_form'] = array(
     '#title' => t('SiteSearch form element'),
     '#type' => 'radios',
-    '#options' => array('radios' => t('Radio buttons'), 'select' => t('Select')),
+    '#options' => array(
+      'radios' => t('Radio buttons'),
+      'select' => t('Select')
+    ),
     '#description' => t('Select the type of form element used to present the SiteSearch option(s).'),
     '#default_value' => variable_get('google_cse_sitesearch_form', 'radios'),
   );
@@ -206,7 +209,12 @@ function google_cse_admin_settings() {
   $form['google_cse']['advanced']['google_cse_safe'] = array(
     '#title' => t('SafeSearch filter'),
     '#type' => 'select',
-    '#options' => array('' => '', 'off' => t('Off'), 'medium' => t('Medium'), 'high' => t('High')),
+    '#options' => array(
+      '' => '',
+      'off' => t('Off'),
+      'medium' => t('Medium'),
+      'high' => t('High')
+    ),
     '#default_value' => variable_get('google_cse_safe', ''),
     '#description' => t('SafeSearch filters search results for adult content. See the <a target="_blank" href="http://www.google.com/coop/docs/cse/resultsxml.html#safesp"><em>safe</em> parameter</a>.'),
   );
@@ -218,7 +226,7 @@ function google_cse_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-    $form['google_cse_adv']['google_cse_use_adv'] = array(
+  $form['google_cse_adv']['google_cse_use_adv'] = array(
     '#title' => t('Use advanced, non-adds version, search engine (You will need a pay account)'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('google_cse_use_adv', 0),

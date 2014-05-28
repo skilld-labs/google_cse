@@ -11,13 +11,16 @@
 function template_preprocess_google_cse_results(&$variables) {
   $query = google_cse_build_query(isset($_GET['query']) ? $_GET['query'] : '', NULL, FALSE);
   $variables['results_searchbox_form'] = $variables['form'] ? drupal_get_form('google_cse_results_searchbox_form') : '';
-  $variables['noscript'] = t('!google, or enable JavaScript to view them here.', array('!google' => l(t('View the results at Google'), 'http://'. variable_get('google_cse_domain', 'www.google.com') .'/cse', array('query' => $query))));
+  $variables['noscript'] = t('!google, or enable JavaScript to view them here.', array('!google' => l(t('View the results at Google'), 'http://' . variable_get('google_cse_domain', 'www.google.com') . '/cse', array('query' => $query))));
   $variables['prefix'] = filter_xss_admin(variable_get('google_cse_results_prefix', ''));
   $variables['suffix'] = filter_xss_admin(variable_get('google_cse_results_suffix', ''));
 
   if (google_cse_validate_request()) {
     drupal_add_js($variables['path'] . '/google_cse_results.js', array('scope' => 'footer'));
-    drupal_add_js('https://www.google.com/afsonline/show_afs_search.js', array('type' => 'external', 'scope' => 'footer'));
+    drupal_add_js('https://www.google.com/afsonline/show_afs_search.js', array(
+      'type' => 'external',
+      'scope' => 'footer'
+    ));
   }
 }
 
@@ -50,7 +53,7 @@ function google_cse_results_searchbox_form($form, &$form_state) {
     $cof = variable_get('google_cse_cof_here', 'FORID:11');
   }
   else {
-    $form['#action'] = 'http://'. variable_get('google_cse_domain', 'www.google.com') .'/cse';
+    $form['#action'] = 'http://' . variable_get('google_cse_domain', 'www.google.com') . '/cse';
     $cof = variable_get('google_cse_cof_google', 'FORID:0');
   }
   $form['#method'] = 'get';

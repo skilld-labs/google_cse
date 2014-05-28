@@ -29,7 +29,7 @@ function google_cse_conditions_callback($keys) {
  */
 function google_cse_search_execute($keys = NULL, $conditions = NULL) {
   if ($keys && !isset($_GET['query'])) {
-    drupal_goto('search/google/'. $keys, array('query' => google_cse_build_query($keys)), 301);
+    drupal_goto('search/google/' . $keys, array('query' => google_cse_build_query($keys)), 301);
   }
   elseif (variable_get('google_cse_use_adv', 0)) {
     // Firstly, load the needed modules.
@@ -65,11 +65,12 @@ function google_cse_search_page($results) {
 
   $output['prefix']['#markup'] = $number_results . '<ol class="search-results">';
 
-  if(!variable_get('google_cse_use_adv', 0)) {
+  if (!variable_get('google_cse_use_adv', 0)) {
     $output['#theme'] = 'google_cse_results';
 
     return $output;
-  }else {
+  }
+  else {
     if ($results) {
       foreach ($results as $entry) {
         $output[] = array(
@@ -191,7 +192,7 @@ function google_cse_advanced_settings() {
     $settings['hl'] = $language->language;
   }
   if (variable_get('google_cse_locale_lr', '')) {
-    $settings['lr'] = 'lang_'. $language->language;
+    $settings['lr'] = 'lang_' . $language->language;
   }
   return $settings;
 }
@@ -205,12 +206,14 @@ function google_cse_language() {
  * Implements hook_init().
  */
 function google_cse_init() {
-  drupal_add_js(array('googleCSE' => array(
-    'cx' => variable_get('google_cse_cx', ''),
-    'language' => google_cse_language(),
-    'resultsWidth' => intval(variable_get('google_cse_results_width', 600)),
-    'domain' => variable_get('google_cse_domain', 'www.google.com'),
-  )), 'setting');
+  drupal_add_js(array(
+    'googleCSE' => array(
+      'cx' => variable_get('google_cse_cx', ''),
+      'language' => google_cse_language(),
+      'resultsWidth' => intval(variable_get('google_cse_results_width', 600)),
+      'domain' => variable_get('google_cse_domain', 'www.google.com'),
+    )
+  ), 'setting');
 }
 
 /**
@@ -240,7 +243,7 @@ function google_cse_sitesearch_options() {
       $options[''] = ($var = variable_get('google_cse_sitesearch_option', '')) ? $var : t('Search the web');
       foreach ($sites as $site) {
         $site = preg_split('/[\s]+/', trim($site), 2, PREG_SPLIT_NO_EMPTY);
-          // Select options will be HTML-escaped and radio options will be XSS-filtered.
+        // Select options will be HTML-escaped and radio options will be XSS-filtered.
         $options[$site[0]] = isset($site[1]) ? $site[1] : t('Search %sitesearch', array('%sitesearch' => $site[0]));
       }
     }
@@ -283,7 +286,11 @@ function google_cse_form_search_form_alter(&$form, &$form_state, $form_id) {
 function google_cse_search_form_submit($form, &$form_state) {
   $keys = $form_state['values']['processed_keys'];
   $sitesearch = isset($form_state['values']['sitesearch']) ? $form_state['values']['sitesearch'] : NULL;
-  $form_state['redirect'] = array($form_state['redirect'], array('query' => google_cse_build_query($keys, $sitesearch)), 301);
+  $form_state['redirect'] = array(
+    $form_state['redirect'],
+    array('query' => google_cse_build_query($keys, $sitesearch)),
+    301
+  );
 }
 
 /**
@@ -304,7 +311,11 @@ function google_cse_form_search_block_form_alter(&$form, &$form_state, $form_id)
 function google_cse_search_block_form_submit($form, &$form_state) {
   $keys = trim($form_state['values'][$form['form_id']['#value']]);
   $sitesearch = isset($form_state['values']['sitesearch']) ? $form_state['values']['sitesearch'] : NULL;
-  $form_state['redirect'] = array($form_state['redirect'], array('query' => google_cse_build_query($keys, $sitesearch)), 301);
+  $form_state['redirect'] = array(
+    $form_state['redirect'],
+    array('query' => google_cse_build_query($keys, $sitesearch)),
+    301
+  );
 }
 
 
@@ -312,10 +323,11 @@ function google_cse_search_block_form_submit($form, &$form_state) {
  * Implements hook_proxy_settings_info()
  */
 function google_cse_proxy_settings_info() {
-  return array('google_cse_adv' =>
-    array(
-      'name' => 'Google Custom Search Engine',
-    )
+  return array(
+    'google_cse_adv' =>
+      array(
+        'name' => 'Google Custom Search Engine',
+      )
   );
 }
 

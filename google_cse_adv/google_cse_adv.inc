@@ -32,17 +32,17 @@ function google_cse_adv_service($keys, $offset = 0) {
   // Language filtering.
   $lr = google_cse_adv_param_lr();
   $url = 'http://www.google.com/cse'
-      . '?cx=' . urlencode(variable_get('google_cse_cx', ''))
-      . '&client=google-csbe'
-      . '&output=xml_no_dtd'
-      . '&filter=1'
-      . ($hl ? '&hl=' . urlencode($hl) : '')
-      . ($lr ? '&lr=' . urlencode($lr) : '')
-      . '&q=' . urlencode($keys)
-      . (isset($_GET['more']) ? '+more:' . urlencode($_GET['more']) : '')
-      . '&num=' . urlencode($rows)
-      . '&start=' . (urlencode($page * $rows) + $offset)
-      . '&as_sitesearch=' . variable_get('google_cse_limit_domain', '');
+    . '?cx=' . urlencode(variable_get('google_cse_cx', ''))
+    . '&client=google-csbe'
+    . '&output=xml_no_dtd'
+    . '&filter=1'
+    . ($hl ? '&hl=' . urlencode($hl) : '')
+    . ($lr ? '&lr=' . urlencode($lr) : '')
+    . '&q=' . urlencode($keys)
+    . (isset($_GET['more']) ? '+more:' . urlencode($_GET['more']) : '')
+    . '&num=' . urlencode($rows)
+    . '&start=' . (urlencode($page * $rows) + $offset)
+    . '&as_sitesearch=' . variable_get('google_cse_limit_domain', '');
 
   // Get the google response.
   $response = google_cse_adv_get_response($url);
@@ -95,8 +95,13 @@ function google_cse_adv_get_response($url) {
  * @return string      themed thumbnail
  */
 function _google_cse_adv_thumbnail($img) {
-  return theme('image', array('path' => $img['value'], 'alt' => $img['title'],
-    'title' => $img['title'], 'attributes' => array('width' => '100px'), 'getsize' => FALSE));
+  return theme('image', array(
+    'path' => $img['value'],
+    'alt' => $img['title'],
+    'title' => $img['title'],
+    'attributes' => array('width' => '100px'),
+    'getsize' => FALSE
+  ));
 }
 
 /**
@@ -249,7 +254,7 @@ function google_cse_adv_response_results($response, $keys, $conditions) {
     $limit = variable_get('google_cse_adv_results_per_page', 10);
     pager_default_initialize($total, $limit);
 
-  } 
+  }
 
   // We send the number of results to third modules
   drupal_alter('google_cse_num_results', $total);
@@ -278,7 +283,6 @@ function google_cse_adv_result_is_accurate($response) {
 
   return $accurate;
 }
-
 
 
 /**
