@@ -68,7 +68,7 @@ function google_cse_search_page($results) {
   else {
     if ($results) {
       $current_page = $_GET["page"];
-      $number_results = 'Results ' . ($current_page * 10) . ' to ' . ($current_page * 10 + 10)
+      $number_results = 'Results ' . ($current_page * 10) + 1 . ' to ' . ($current_page * 10 + 10)
         . ' of ' . $GLOBALS['pager_total_items'][0] . ' matches';
 
       $output['prefix']['#markup'] = $number_results . '<ol class="search-results">';
