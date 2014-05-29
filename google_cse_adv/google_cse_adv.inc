@@ -8,11 +8,12 @@
 
 /**
  * Sends query to Google's Custom Search Engine and returns response.
- * Returns a response string (XML).
  *
  * @param string $keys
  * @param int $offset
+ *
  * @return string
+ *   XML response string.
  */
 function google_cse_adv_service($keys, $offset = 0) {
   $page = 0;
@@ -53,7 +54,9 @@ function google_cse_adv_service($keys, $offset = 0) {
 
 /**
  * Given the url with the search we try to do, get response from Google.
- * @param  string $url
+ *
+ * @param string $url
+ *
  * @return string
  */
 function google_cse_adv_get_response($url) {
@@ -63,7 +66,7 @@ function google_cse_adv_get_response($url) {
 
   $curl = curl_init();
   curl_setopt($curl, CURLOPT_URL, $request->url);
-  // Return into a variable
+  // Return into a variable.
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($curl, CURLOPT_TIMEOUT, 30);
 
@@ -80,7 +83,6 @@ function google_cse_adv_get_response($url) {
     }
   }
 
-
   $response[] = curl_exec($curl);
   curl_close($curl);
 
@@ -92,6 +94,7 @@ function google_cse_adv_get_response($url) {
  * Returns the thumbnail properly themed.
  *
  * @param array $img
+ *
  * @return mixed
  */
 function _google_cse_adv_thumbnail($img) {
@@ -323,7 +326,7 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
     if (isset($xml->RES->M)) {
       $num_of_results = (int) $xml->RES->M;
 
-      // Sometimes google gives different results. We will keep one, the biggest.
+      // Sometimes google gives different results. We will keep the biggest.
       if ($max_num_result > $num_of_results) {
         $max_num_result = $num_of_results;
       }

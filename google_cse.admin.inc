@@ -118,7 +118,7 @@ function google_cse_admin_settings() {
     '#type' => 'radios',
     '#options' => array(
       'radios' => t('Radio buttons'),
-      'select' => t('Select')
+      'select' => t('Select'),
     ),
     '#description' => t('Select the type of form element used to present the SiteSearch option(s).'),
     '#default_value' => variable_get('google_cse_sitesearch_form', 'radios'),
@@ -213,12 +213,11 @@ function google_cse_admin_settings() {
       '' => '',
       'off' => t('Off'),
       'medium' => t('Medium'),
-      'high' => t('High')
+      'high' => t('High'),
     ),
     '#default_value' => variable_get('google_cse_safe', ''),
     '#description' => t('SafeSearch filters search results for adult content. See the <a target="_blank" href="http://www.google.com/coop/docs/cse/resultsxml.html#safesp"><em>safe</em> parameter</a>.'),
   );
-
 
   $form['google_cse_adv'] = array(
     '#title' => t('Google CSE Advanced'),
