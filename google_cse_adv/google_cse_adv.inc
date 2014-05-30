@@ -32,18 +32,22 @@ function google_cse_adv_service($keys, $offset = 0) {
   $hl = google_cse_adv_param_hl();
   // Language filtering.
   $lr = google_cse_adv_param_lr();
-  $url = 'http://www.google.com/cse'
-    . '?cx=' . urlencode(variable_get('google_cse_cx', ''))
-    . '&client=google-csbe'
-    . '&output=xml_no_dtd'
-    . '&filter=1'
-    . ($hl ? '&hl=' . urlencode($hl) : '')
-    . ($lr ? '&lr=' . urlencode($lr) : '')
-    . '&q=' . urlencode($keys)
-    . (isset($_GET['more']) ? '+more:' . urlencode($_GET['more']) : '')
-    . '&num=' . urlencode($rows)
-    . '&start=' . (urlencode($page * $rows) + $offset)
-    . '&as_sitesearch=' . variable_get('google_cse_limit_domain', '');
+
+  $url = url('http://www.google.com/cse', array(
+    'query' => array(
+      'cx' => urlencode(variable_get('google_cse_cx', '')),
+      'client' => 'google-csbe',
+      'output' => 'xml_no_dtd',
+      'filter' => '1',
+      'hl' => ($hl ? urlencode($hl) : ''),
+      'lr' => ($lr ? urlencode($lr) : ''),
+      'q' => urlencode($keys),
+      (isset($_GET['more']) ? '+more:' urlencode($_GET['more']) : ''),
+    'num' => '', urlencode($rows),
+    'start' => '', (urlencode($page * $rows) + $offset),
+    'as_sitesearch' =>  variable_get('google_cse_limit_domain', ''),
+    ),
+  );
 
   // Get the google response.
   $response = google_cse_adv_get_response($url);
@@ -146,9 +150,10 @@ function google_cse_adv_param_lr() {
 /**
  * Function to fetch the results xml from Google.
  *
- * @param  string $response
- * @param  string $keys
- * @param  string $conditions
+ * @param string $response
+ * @param string $keys
+ * @param string $conditions
+ *
  * @return string
  */
 function google_cse_adv_response_results($response, $keys, $conditions) {
@@ -212,6 +217,7 @@ function google_cse_adv_response_results($response, $keys, $conditions) {
             $extra = $extra['host'];
 
             break;
+
           case "metatags":
             // Clean the string.
             $snippet = google_cse_adv_clean_str((string) $result->S);
@@ -253,13 +259,13 @@ function google_cse_adv_response_results($response, $keys, $conditions) {
       );
     }
 
-    // No pager query was executed - we have to set the pager manually
+    // No pager query was executed - we have to set the pager manually.
     $limit = variable_get('google_cse_adv_results_per_page', 10);
     pager_default_initialize($total, $limit);
 
   }
 
-  // We send the number of results to third modules
+  // Allow other modules to alter the number of results.
   drupal_alter('google_cse_num_results', $total);
 
   return $results;
@@ -290,29 +296,31 @@ function google_cse_adv_result_is_accurate($response) {
 
 /**
  * Get the exact (accurate) number of search results to be used in the pager.
+ *
  * Otherwise, the pager sometimes will show a different number of pages.
  *
  * @param $keys
  * @param $total
+ *
  * @return int
  */
 function google_cse_adv_get_accurate_num_of_results($keys, $total) {
   // If we do not find an accurate result we will use the first one.
   $num_of_results = $total;
-  // We keep this to maximaze the accuracy (as google can return != results).
+  // We keep this to maximize the accuracy (as google can return != results).
   $max_num_result = 9999999999;
   $result_is_accurate = FALSE;
 
   // We will use total as first offset.
   $offset = $total;
   $max_offset = 600;
-  // Be sure that the results are not being repeated, so no more accuracy possible.
+  // Check that results are not being repeated, so no more accuracy possible.
   $repeated_results = 0;
   // Max repetitions before giving up (too much makes the search slower, few unnacurate).
   $max_repetitions = 2;
   $previous_result = 0;
 
-  // Loop while result is not accurate, $offset + 100 (limit to avoid infinite)
+  // Loop while result is not accurate, $offset + 100 (limit to avoid infinite).
   while ((!$result_is_accurate) && ($offset < $max_offset) && ($repeated_results < $max_repetitions)) {
 
     // First, we build the response. The offset will force Google to return.
@@ -350,7 +358,8 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
 /**
  * Clean string of html, tags, etc...
  *
- * @param  string $input_str
+ * @param string $input_str
+ *
  * @return string
  */
 function google_cse_adv_clean_str($input_str) {
