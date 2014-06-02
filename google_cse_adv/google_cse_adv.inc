@@ -320,7 +320,7 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
   // If we do not find an accurate result we will use the first one.
   $num_of_results = $total;
   // We keep this to maximize the accuracy (as google can return != results).
-  $max_num_result = 9999999999;
+  $max_num_result = PHP_INT_MAX;
   $result_is_accurate = FALSE;
 
   $offset = variable_get('google_cse_adv_initial_offset', 400);
