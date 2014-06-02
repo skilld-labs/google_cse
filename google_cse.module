@@ -28,10 +28,7 @@ function google_cse_conditions_callback($keys) {
  * Implements hook_search_execute().
  */
 function google_cse_search_execute($keys = NULL, $conditions = NULL) {
-  if ($keys && !isset($_GET['query'])) {
-    drupal_goto('search/google/' . $keys, array('query' => google_cse_build_query($keys)), 301);
-  }
-  elseif (variable_get('google_cse_use_adv', 0)) {
+  if (variable_get('google_cse_use_adv', 0)) {
     // Firstly, load the needed modules.
     module_load_include('inc', 'google_cse', 'google_cse_adv/google_cse_adv');
     // And get the google results.
@@ -284,22 +281,8 @@ function google_cse_form_search_form_alter(&$form, &$form_state, $form_id) {
       $form['basic']['op']['#suffix'] = theme('google_cse_results_gadget');
     }
     google_cse_sitesearch_form($form);
-    $form['#submit'][] = 'google_cse_search_form_submit';
     $form['#attributes']['class'][] = 'google-cse';
   }
-}
-
-/**
- * Processes a search form submission.
- */
-function google_cse_search_form_submit($form, &$form_state) {
-  $keys = $form_state['values']['processed_keys'];
-  $sitesearch = isset($form_state['values']['sitesearch']) ? $form_state['values']['sitesearch'] : NULL;
-  $form_state['redirect'] = array(
-    $form_state['redirect'],
-    array('query' => google_cse_build_query($keys, $sitesearch)),
-    301,
-  );
 }
 
 /**
