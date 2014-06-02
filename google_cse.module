@@ -292,22 +292,8 @@ function google_cse_form_search_block_form_alter(&$form, &$form_state, $form_id)
   $info = search_get_default_module_info();
   if ($info['module'] == 'google_cse') {
     google_cse_sitesearch_form($form);
-    $form['#submit'][] = 'google_cse_search_block_form_submit';
     $form['#attributes']['class'][] = 'google-cse';
   }
-}
-
-/**
- * Processes a search block form submission.
- */
-function google_cse_search_block_form_submit($form, &$form_state) {
-  $keys = trim($form_state['values'][$form['form_id']['#value']]);
-  $sitesearch = isset($form_state['values']['sitesearch']) ? $form_state['values']['sitesearch'] : NULL;
-  $form_state['redirect'] = array(
-    $form_state['redirect'],
-    array('query' => google_cse_build_query($keys, $sitesearch)),
-    301,
-  );
 }
 
 
