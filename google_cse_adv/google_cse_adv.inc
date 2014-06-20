@@ -22,6 +22,9 @@ function google_cse_adv_service($keys, $offset = 0) {
   $page = 0;
   $response = array();
 
+  // Allow other modules to alter the keys.
+  drupal_alter('google_cse_searched_keys', $keys);
+
   if (isset($_GET['page'])) {
     $page = $_GET['page'];
   }
