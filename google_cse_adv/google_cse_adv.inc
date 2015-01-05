@@ -343,7 +343,7 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
     if (isset($xml->RES)) {
       $attributes = $xml->RES->attributes();
       $total_num_results += (int) $attributes['EN'];
-      cache_set($cid, $total_num_results);
+      cache_set($cid, $total_num_results, 'cache', CACHE_TEMPORARY);
     }
   }
 
