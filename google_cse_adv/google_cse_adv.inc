@@ -335,7 +335,7 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
     $offset = 1000 - variable_get('google_cse_adv_results_per_page', 10);
     $response = google_cse_adv_service($keys, $offset);
     $xml = simplexml_load_string($response[0]);
-    if(isset($xml->RES)) {
+    if (isset($xml->RES)) {
       $attributes = $xml->RES->attributes();
       $total_num_results += (int) $attributes['EN'];
       cache_set($cid, $total_num_results);
@@ -343,7 +343,7 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
   }
 
   // If we do not find an accurate result we will use the initial estimate.
-  if(!$total_num_results) {
+  if (!$total_num_results) {
     $total_num_results = $total;
   }
 
