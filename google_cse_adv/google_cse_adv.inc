@@ -5,6 +5,10 @@
  * Uses Google Custom Search Engine (CSE) without frames and ads.
  */
 
+/**
+ * Maximum number of results from a Google search.
+ */
+define('GOOGLE_MAX_SEARCH_RESULTS', 1000);
 
 /**
  * Sends query to Google's Custom Search Engine and returns response.
@@ -331,8 +335,9 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
     $total_num_results += $cache->data;
   }
   else {
-    // Request for the last page of the search results.
-    $offset = 1000 - variable_get('google_cse_adv_results_per_page', 10);
+    // Request for the last page of the search results and cache the number of
+    // results returned.
+    $offset = GOOGLE_MAX_SEARCH_RESULTS - variable_get('google_cse_adv_results_per_page', 10);
     $response = google_cse_adv_service($keys, $offset);
     $xml = simplexml_load_string($response[0]);
     if (isset($xml->RES)) {
