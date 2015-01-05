@@ -328,7 +328,7 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
   // Allow other modules to alter the keys.
   drupal_alter('google_cse_searched_keys', $keys);
 
-  $cid = 'cse:' . $keys;
+  $cid = 'cse_results:' . $keys;
   $cache = cache_get($cid);
   // Check for cached results.
   if ($cache && isset($cache->data)) {
