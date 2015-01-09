@@ -45,7 +45,7 @@ function google_cse_adv_service($keys, $offset = 0) {
     'lr' => google_cse_adv_param_lr(),
     'q' => $keys,
     'num' => $rows,
-    'start' => ($page * $rows) + $offset,
+    'start' => ($offset) ? $offset : ($page * $rows),
     'as_sitesearch' => variable_get('google_cse_limit_domain', ''),
   );
 
@@ -312,7 +312,6 @@ function google_cse_adv_result_is_accurate($response) {
  * Google will never return more than 1000 results for any given search. If a
  * request for the maximum results is made, Google will return the last page of
  * the search results with the start and end position as attributes of the results.
- * Store the total number of results for the search keyword(s) in session.
  *
  * @param string $keys
  *   The search keys.
@@ -328,28 +327,18 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
   // Allow other modules to alter the keys.
   drupal_alter('google_cse_searched_keys', $keys);
 
-  $cid = 'cse_results:' . $keys;
-  // Check for stored results.
-  if (isset($_SESSION[$cid])) {
-    $total_num_results += $_SESSION[$cid];
-  }
-  else {
-    // Request for the last page of the search results and store the number of
-    // results returned in session.
-    $offset = GOOGLE_MAX_SEARCH_RESULTS - variable_get('google_cse_adv_results_per_page', 10);
-    $response = google_cse_adv_service($keys, $offset);
-    $xml = simplexml_load_string($response[0]);
-    if (isset($xml->RES)) {
-      $attributes = $xml->RES->attributes();
-      $_SESSION[$cid] = $total_num_results += (int) $attributes['EN'];
-    }
+  $offset = GOOGLE_MAX_SEARCH_RESULTS - variable_get('google_cse_adv_results_per_page', 10);
+  $response = google_cse_adv_service($keys, $offset);
+  $xml = simplexml_load_string($response[0]);
+  if (isset($xml->RES)) {
+    $attributes = $xml->RES->attributes();
+    $total_num_results += (int) $attributes['EN'];
   }
 
   // If we do not find an accurate result we will use the initial estimate.
   if (!$total_num_results) {
     $total_num_results = $total;
   }
-
   return $total_num_results;
 }
 
