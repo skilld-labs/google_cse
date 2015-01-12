@@ -313,6 +313,11 @@ function google_cse_adv_result_is_accurate($response) {
  * request for the maximum results is made, Google will return the last page of
  * the search results with the start and end position as attributes of the results.
  *
+ * The <RES> tag encapsulates the set of individual search results and details
+ * about those results. The tag attributes are SN (the 1-based index of the first
+ * search result returned in this result set) and EN (the 1-based index of the
+ * last search result).
+ *
  * @param string $keys
  *   The search keys.
  *
@@ -331,6 +336,8 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
   $response = google_cse_adv_service($keys, $offset);
   $xml = simplexml_load_string($response[0]);
   if (isset($xml->RES)) {
+    // Get the 1-based index of the last search result item from the result end
+    // attribute (EN) of the search result tag (RES).
     $attributes = $xml->RES->attributes();
     $total_num_results += (int) $attributes['EN'];
   }
