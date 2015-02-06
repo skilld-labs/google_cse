@@ -35,6 +35,9 @@ function google_cse_search_execute($keys = NULL, $conditions = NULL) {
     $response = google_cse_adv_service($keys);
     $results = google_cse_adv_response_results($response[0], $keys, $conditions);
 
+    // Allow other modules to alter the keys.
+    drupal_alter('google_cse_searched_keys', $keys);
+
     return $results;
   }
 

@@ -340,7 +340,7 @@ function google_cse_adv_get_accurate_num_of_results($keys, $total) {
     // attribute (EN) of the search result tag (RES).
     $attributes = $xml->RES->attributes();
     $total_num_results += (int) $attributes['EN'];
-  }
+ }
 
   // If we do not find an accurate result we will use the initial estimate.
   if (!$total_num_results) {
