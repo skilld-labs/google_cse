@@ -212,7 +212,7 @@ function google_cse_adv_response_results($response, $keys, $conditions) {
 
             $snippet = $text_snippet;
             // Display the snippet image if configured to do so.
-            if (empty(variable_get('google_cse_results_hide_images', 0))) {
+            if (!variable_get('google_cse_results_hide_images', 0)) {
               // Packing image for thumbnail function.
               $img['title'] = $title;
               if (isset($image_att['value'])) {
