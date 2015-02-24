@@ -217,7 +217,7 @@ function google_cse_adv_response_results($response, $keys, $conditions) {
             }
 
             $snippet = $text_snippet;
-            // Only display the snippet image if configured to do so.
+            // Hide the snippet image if configured to do so.
             if (empty(variable_get('google_cse_results_hide_images', 0))) {
               $snippet = _google_cse_adv_thumbnail($img) . $snippet;
             }
