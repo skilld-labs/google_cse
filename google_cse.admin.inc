@@ -99,6 +99,12 @@ function google_cse_admin_settings() {
     ),
     '#description' => t('Search results for the Google CSE block can be displayed on this site, using JavaScript, or on Google, which does not require JavaScript.'),
   );
+  $form['google_cse']['google_cse_results_hide_images'] = array(
+    '#title' => t('Hide thumbnail images in the search results'),
+    '#type' => 'checkbox',
+    '#description' => t('If set, search result snippets will not contain a thumbnail image'),
+    '#default_value' => variable_get('google_cse_results_hide_images', 0),
+  );
   $form['google_cse']['sitesearch'] = array(
     '#title' => t('SiteSearch settings'),
     '#type' => 'fieldset',
