@@ -210,15 +210,15 @@ function google_cse_adv_response_results($response, $keys, $conditions) {
             // Clean the text.
             $text_snippet = google_cse_adv_clean_str((string) $result->S);
 
-            // Packing image for thumbnail function.
-            $img['title'] = $title;
-            if (isset($image_att['value'])) {
-              $img['value'] = $image_att['value'];
-            }
-
             $snippet = $text_snippet;
             // Display the snippet image if configured to do so.
             if (empty(variable_get('google_cse_results_hide_images', 0))) {
+              // Packing image for thumbnail function.
+              $img['title'] = $title;
+              if (isset($image_att['value'])) {
+                $img['value'] = $image_att['value'];
+              }
+
               $snippet = _google_cse_adv_thumbnail($img) . $snippet;
             }
 
