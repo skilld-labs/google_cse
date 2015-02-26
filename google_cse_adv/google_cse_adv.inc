@@ -113,7 +113,7 @@ function google_cse_adv_get_response($url) {
  */
 function _google_cse_adv_thumbnail($title, $image_att) {
   // Display the snippet image if configured to do so.
-  if (!variable_get('google_cse_results_hide_images', 0)) {
+  if (variable_get('google_cse_results_display_images', TRUE)) {
     return theme('image', array(
       'path' => isset($image_att['value']) ? $image_att['value'] : '',
       'alt' => $title,
@@ -123,7 +123,7 @@ function _google_cse_adv_thumbnail($title, $image_att) {
     ));
   }
 
-  return NULL;
+  return '';
 }
 
 /**
