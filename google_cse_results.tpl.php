@@ -14,7 +14,7 @@
     <?php print $noscript; ?>
   </noscript>
 </div>
-
+<?php print variable_get('google_cse_custom_results_display', '') ?>
 <?php if ($suffix): ?>
   <div class="google-cse-results-suffix"><?php print $suffix; ?></div>
 <?php endif; ?>

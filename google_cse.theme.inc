@@ -19,11 +19,19 @@ function template_preprocess_google_cse_results(&$variables) {
   $variables['suffix'] = filter_xss_admin(variable_get('google_cse_results_suffix', ''));
 
   if (google_cse_validate_request()) {
-    drupal_add_js($variables['path'] . '/google_cse_results.js', array('scope' => 'footer'));
-    drupal_add_js('https://www.google.com/afsonline/show_afs_search.js', array(
-      'type' => 'external',
-      'scope' => 'footer',
-    ));
+    drupal_add_js('
+      (function() {
+         var cx = \'' .variable_get('google_cse_cx', '') . '\';
+         var gcse = document.createElement(\'script\');
+         gcse.type = \'text/javascript\';
+         gcse.async = true;
+         gcse.src = (document.location.protocol == \'https:\' ? \'https:\' : \'http:\') +
+         \'//www.google.com/cse/cse.js?cx=\' + cx;
+         var s = document.getElementsByTagName(\'script\')[0];
+         s.parentNode.insertBefore(gcse, s);
+      }
+    )();', array('type' => 'inline', 'scope' => 'footer'));
+    drupal_add_css('' . variable_get('google_cse_custom_css', '') . '', 'external');
   }
 }
 

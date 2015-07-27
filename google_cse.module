@@ -47,6 +47,10 @@ function google_cse_search_execute($keys = NULL, $conditions = NULL) {
  * Builds a query array based on Google CSE settings.
  */
 function google_cse_build_query($keys, $sitesearch = NULL, $here = TRUE) {
+  if (!variable_get('google_cse_use_adv', 0)) {
+    return array('query' => $keys);
+  }
+
   return array(
     'query' => $keys,
     'cx' => variable_get('google_cse_cx', ''),
@@ -65,37 +69,35 @@ function google_cse_search_page($results) {
 
     return $output;
   }
-  else {
-    if ($results) {
-      $current_page = isset($_GET['page']) ? $_GET['page'] : 0;
+  
+  if (!$results) {
+    // No results found.
+    $output['search_results'] = array('#markup' => theme('google_cse_search_noresults'));
+   
+    return $output;
+  }
 
-      $from = $current_page * 10 + 1;
-      $to = $current_page * 10 + 10;
-      $total = $GLOBALS['pager_total_items'][0];
+  if (!empty($_GET['page'])) {
+    $current_page = $_GET['page'];
+    $number_results = t('Results @from to @to of @total matches.', array(
+      '@from' => $current_page * 10,
+      '@to' => $current_page * 10 + 10,
+      '@total' => $GLOBALS['pager_total_items'][0],
+    ));
+    $output['prefix']['#markup'] = $number_results . '<ol class="search-results">';
+  }
 
-      if ($to > $total) {
-        $to = $total;
-      }
-
-      $number_results = "Results $from to $to of $total matches";
-
-      $output['prefix']['#markup'] = $number_results . '<ol class="search-results">';
-
-      foreach ($results as $entry) {
-        $output[] = array(
-          '#theme' => 'search_result',
-          '#result' => $entry,
-          '#module' => 'google_cse',
-        );
-      }
-      // Important, add the pager.
-      $output['suffix']['#markup'] = '</ol>' . theme('pager');
-    }
-    else {
-      // No results found.
-      $output['search_results'] = array('#markup' => theme('google_cse_search_noresults'));
-    }
-
+  foreach ($results as $entry) {
+    $output[] = array(
+      '#theme' => 'search_result',
+      '#result' => $entry,
+      '#module' => 'google_cse',
+    );
+  }
+ 
+  if (!empty($_GET['page'])) {
+    // Important, add the pager.
+    $output['suffix']['#markup'] = '</ol>' . theme('pager');
   }
 
   return $output;

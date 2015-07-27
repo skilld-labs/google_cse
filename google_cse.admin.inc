@@ -253,6 +253,29 @@ function google_cse_admin_settings() {
     '#description' => t('SafeSearch filters search results for adult content. See the <a target="_blank" href="http://www.google.com/coop/docs/cse/resultsxml.html#safesp"><em>safe</em> parameter</a>.'),
   );
 
+  $form['google_cse']['advanced']['google_cse_custom_css'] = array(
+    '#title' => t('Stylesheet Override'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('google_cse_custom_css', ''),
+    '#description' => t('Set a custom stylesheet to override or add any styles not allowed in the CSE settings (such as "background-color: none;"). Include <span style="color:red; font-weight:bold;">!important</span> for overrides.<br/>Example: <em>//replacewithrealsite.com/sites/all/modules/google_cse/default.css</em>'),
+  );
+  
+  $form['google_cse']['advanced']['google_cse_custom_results_display'] = array(
+    '#title' => t('Layout of Search Engine'),
+    '#type' => 'radios',
+    '#default_value' => variable_get('google_cse_custom_results_display', '<gcse:search></gcse:search>'),
+    '#options' => array(
+      '<gcse:search></gcse:search>' => t('Overlay'),
+      '<gcse:searchbox-only></gcse:searchbox-only><gcse:searchresults-only></gcse:searchresults-only>' => t('Two page'),
+      '<gcse:search></gcse:search>&nbsp;' => t('Full width'),
+      '<gcse:searchbox></gcse:searchbox><gcse:searchresults></gcse:searchresults>' => t('Two column'),
+      '<gcse:search></gcse:search>&nbsp;&nbsp;' => t('Compact'),
+      '<gcse:searchresults-only></gcse:searchresults-only>' => t('Results only'),
+      '<gcse:searchbox-only></gcse:searchbox-only>' => t('Google hosted'),
+    ),
+    '#description' => t('Set the search engine layout, as found in the Layout tab of <a target="_blank" href="https://www.google.com/cse/lookandfeel/layout?cx='.variable_get('google_cse_cx', '').'">Custom Search settings</a>. '),
+  );
+
   $form['google_cse_adv'] = array(
     '#title' => t('Google CSE Advanced'),
     '#type' => 'fieldset',
