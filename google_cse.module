@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Contains google_cse.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function google_cse_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the google_cse module.
+    case 'help.page.google_cse':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Use Google Custom Search to search your site and/or any other sites.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function google_cse_theme() {
+  $theme = [];
+
+  return $theme;
+}
