@@ -38,6 +38,9 @@ function google_cse_search_execute($keys = NULL, $conditions = NULL) {
     // Allow other modules to alter the keys.
     drupal_alter('google_cse_searched_keys', $keys);
 
+    // Allow other modules to alter the results.
+    drupal_alter('google_cse_searched_results', $results);
+
     return $results;
   }
 
