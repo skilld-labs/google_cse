@@ -49,29 +49,8 @@ function template_preprocess_google_cse_results(&$variables) {
   $variables['suffix'] = filter_xss_admin(variable_get('google_cse_results_suffix', ''));
 
   if (google_cse_validate_request()) {
-    drupal_add_js('
-      window.__gcse = {
-        callback: function () {
-          var query = /^\/search\/google\/(.+)/.exec(document.location.pathname);
-          if (query) {
-            var gcse = google.search.cse.element.getElement("google_cse");
-            if (gcse) {
-               gcse.execute(query[1]);
-            }
-           }
-         }
-      };
-      (function() {
-         var cx = \'' .variable_get('google_cse_cx', '') . '\';
-         var gcse = document.createElement(\'script\');
-         gcse.type = \'text/javascript\';
-         gcse.async = true;
-         gcse.src = (document.location.protocol == \'https:\' ? \'https:\' : \'http:\') +
-         \'//www.google.com/cse/cse.js?cx=\' + cx;
-         var s = document.getElementsByTagName(\'script\')[0];
-         s.parentNode.insertBefore(gcse, s);
-      }
-    )();', array('type' => 'inline', 'scope' => 'footer'));
+    drupal_add_js(drupal_get_path('module', 'google_cse') . '/google_cse_results.js',
+                  array('scope' => 'footer'));
     drupal_add_css('' . variable_get('google_cse_custom_css', '') . '', 'external');
   }
 }
