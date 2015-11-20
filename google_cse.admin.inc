@@ -284,7 +284,7 @@ function google_cse_admin_settings() {
   );
 
   $form['google_cse_adv']['google_cse_use_adv'] = array(
-    '#title' => t('Use advanced, non-adds version, search engine (You will need a pay account)'),
+    '#title' => t('Use advanced, ad-free version, search engine (You will need a paid account with Google)'),
     '#type' => 'checkbox',
     '#default_value' => variable_get('google_cse_use_adv', 0),
     '#description' => t('If enabled, search results will be fetch using Adv engine.'),
