@@ -50,6 +50,17 @@ function template_preprocess_google_cse_results(&$variables) {
 
   if (google_cse_validate_request()) {
     drupal_add_js('
+      window.__gcse = {
+        callback: function () {
+          var query = /^\/search\/google\/(.+)/.exec(document.location.pathname);
+          if (query) {
+            var gcse = google.search.cse.element.getElement("google_cse");
+            if (gcse) {
+               gcse.execute(query[1]);
+            }
+           }
+         }
+      };
       (function() {
          var cx = \'' .variable_get('google_cse_cx', '') . '\';
          var gcse = document.createElement(\'script\');
