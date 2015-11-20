@@ -5,6 +5,49 @@
  * Installation functions.
  */
 
+
+/**
+* Change search engine layout option from tags to fixed values.
+*/
+function google_cse_update_7200() {
+
+  switch (variable_get('google_cse_custom_results_display', '')) {
+    case '<gcse:search></gcse:search>':
+      $new_value = 'overlay';
+      break;
+
+    case '<gcse:searchbox-only></gcse:searchbox-only><gcse:searchresults-only></gcse:searchresults-only>':
+      $new_value = 'two-page';
+      break;
+
+    case '<gcse:search></gcse:search>&nbsp;':
+      $new_value = 'full-width';
+      break;
+
+    case '<gcse:searchbox></gcse:searchbox><gcse:searchresults></gcse:searchresults>':
+      $new_value = 'two-column';
+      break;
+
+    case '<gcse:search></gcse:search>&nbsp;&nbsp;':
+      $new_value = 'compact';
+      break;
+
+    case '<gcse:searchresults-only></gcse:searchresults-only>':
+      $new_value = 'results-only';
+      break;
+
+    case '<gcse:searchbox-only></gcse:searchbox-only>':
+      $new_value = 'google-hosted';
+      break;
+
+    default:
+      $new_value = 'results-only';
+  }
+
+  variable_set('google_cse_custom_results_display', $new_value);
+}
+
+
 /**
  * Implements hook_uninstall().
  */

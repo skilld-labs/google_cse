@@ -5,12 +5,42 @@
  * Themeable functions for Google Custom Search Engine.
  */
 
+function google_cse_get_cse_tag() {
+  $display = variable_get('google_cse_custom_results_display', 'results-only');
+
+  switch ($display) {
+    case 'overlay':
+    case 'compact':
+    case 'full-width':
+      return '<gcse:search gname="google_cse"></gcse:search>';
+
+    case 'two-page':
+      return '<gcse:searchbox-only gname="google_cse"></gcse:searchbox-only><gcse:searchresults-only gname="google_cse"></gcse:searchresults-only>';
+
+
+    case 'two-column':
+      return '<gcse:searchbox gname="google_cse"></gcse:searchbox><gcse:searchresults gname="google_cse"></gcse:searchresults>';
+
+
+    case 'results-only':
+      return '<gcse:searchresults-only gname="google_cse"></gcse:searchresults-only>';
+
+    case 'google-hosted':
+      return '<gcse:searchbox-only gname="google_cse"></gcse:searchbox-only>';
+
+    default:
+      watchdog('google_cse', 'Invalid custom result display %display',
+               array('%display' => $display), WATCHDOG_CRITICAL);
+  }
+}
+
 /**
  * The search results page can be themed/customized.
  */
 function template_preprocess_google_cse_results(&$variables) {
   $query = google_cse_build_query(isset($_GET['query']) ? $_GET['query'] : '', NULL, FALSE);
   $variables['results_searchbox_form'] = $variables['form'] ? drupal_get_form('google_cse_results_searchbox_form') : '';
+  $variables['cse_tag'] = google_cse_get_cse_tag();
   $variables['noscript'] = t('!google, or enable JavaScript to view them here.', array(
     '!google' => l(t('View the results at Google'), 'http://' . variable_get('google_cse_domain', 'www.google.com') . '/cse', array(
       'query' => $query,
