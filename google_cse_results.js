@@ -6,7 +6,7 @@
 // Callback to grab search terms from the URL and feed them to Google.
 window.__gcse = {
   callback: function () {
-    var query = /^\/search\/google\/(.+)/.exec(document.location.pathname);
+    var query = /.*\/search\/google\/(.+)/.exec(document.location.pathname);
     if (query) {
       var gcse = google.search.cse.element.getElement("google_cse");
       if (gcse) {
