@@ -184,7 +184,7 @@ function google_cse_results_tab() {
 function google_cse_permission() {
   return array(
     'search Google CSE' => array(
-      'title' => t('Use Google CSE'),
+      'title' => t('Use Google CSE search'),
     ),
   );
 }
