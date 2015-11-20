@@ -56,15 +56,6 @@ function template_preprocess_google_cse_results(&$variables) {
 }
 
 /**
- * Display an Add-to-Google button.
- */
-function template_preprocess_google_cse_results_gadget(&$variables) {
-  $cx = explode(':', variable_get('google_cse_cx', ''));
-  $variables['creator'] = rawurlencode($cx[0]);
-  $variables['id'] = isset($cx[1]) ? rawurlencode($cx[1]) : '';
-}
-
-/**
  * Validate GET parameters to avoid displaying inappropriate search results.
  */
 function google_cse_validate_request() {
@@ -112,9 +103,7 @@ function google_cse_results_searchbox_form($form, &$form_state) {
   }
   $form['query']['#size'] = intval(variable_get('google_cse_results_searchbox_width', 40));
   $form['query']['#title'] = t('Enter your keywords');
-  if (variable_get('google_cse_results_gadget', 1)) {
-    $form['sa']['#suffix'] = theme('google_cse_results_gadget');
-  }
+
   google_cse_sitesearch_form($form);
   return $form;
 }

@@ -65,13 +65,6 @@ function google_cse_admin_settings() {
     '#description' => t('AdSense ads are also displayed when the CSE links or redirects to Google.'),
   );
 
-  $form['google_cse']['google_cse_results_gadget'] = array(
-    '#title' => t('Search results "Add to Google" Google Gadget'),
-    '#type' => 'checkbox',
-    '#default_value' => variable_get('google_cse_results_gadget', 1),
-    '#description' => t('If enabled, an "Add to Google" button will be displayed above the search results.'),
-  );
-
   $form['google_cse']['google_cse_results_prefix'] = array(
     '#title' => t('Search results prefix text'),
     '#type' => 'textarea',

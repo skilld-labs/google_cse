@@ -131,11 +131,6 @@ function google_cse_theme($existing, $type, $theme, $path) {
       'file' => 'google_cse.theme.inc',
       'template' => 'google_cse_results',
     ),
-    'google_cse_results_gadget' => array(
-      'variables' => array(),
-      'file' => 'google_cse.theme.inc',
-      'template' => 'google_cse_results_gadget',
-    ),
     'google_cse_adv_results' => array(
       'variables' => array('form' => FALSE, 'path' => $path),
       'file' => 'google_cse.theme.inc',
@@ -293,9 +288,6 @@ function google_cse_sitesearch_default() {
  */
 function google_cse_form_search_form_alter(&$form, &$form_state, $form_id) {
   if ($form['module']['#value'] == 'google_cse') {
-    if (variable_get('google_cse_results_gadget', 1)) {
-      $form['basic']['op']['#suffix'] = theme('google_cse_results_gadget');
-    }
     google_cse_sitesearch_form($form);
     $form['#attributes']['class'][] = 'google-cse';
   }

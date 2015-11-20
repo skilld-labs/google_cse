@@ -47,6 +47,12 @@ function google_cse_update_7200() {
   variable_set('google_cse_custom_results_display', $new_value);
 }
 
+/**
+ * Delete irrelevant gadget variable.
+ */
+function google_cse_update_7201() {
+  variable_del('google_cse_results_gadget');
+}
 
 /**
  * Implements hook_uninstall().
