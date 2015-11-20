@@ -244,7 +244,7 @@ function google_cse_sitesearch_form(&$form) {
       '#options' => $options,
       '#default_value' => google_cse_sitesearch_default(),
     );
-    if ($type == 'select' && isset($form['sa'])) {
+    if ($form['sitesearch']['#type'] == 'select' && isset($form['sa'])) {
       $form['sa']['#weight'] = 10;
     }
   }
