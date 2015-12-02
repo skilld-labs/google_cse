@@ -266,7 +266,9 @@ function google_cse_admin_settings() {
       'results-only' => t('Results only'),
       'google-hosted' => t('Google hosted'),
     ),
-    '#description' => t('Set the search engine layout, as found in the Layout tab of <a target="_blank" href="https://www.google.com/cse/lookandfeel/layout?cx='.variable_get('google_cse_cx', '').'">Custom Search settings</a>. '),
+    '#description' => t('Set the search engine layout, as found in the Layout tab of <a target="_blank" href="@url">Custom Search settings</a>.', array(
+      '@url' => 'https://www.google.com/cse/lookandfeel/layout?cx=' . variable_get('google_cse_cx', ''),
+    )),
   );
 
   $form['google_cse_adv'] = array(
