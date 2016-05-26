@@ -1,7 +1,14 @@
-name: Google Custom Search Engine
-type: module
-description: Use Google Custom Search to search your site and/or any other sites.
+name: 'Google CSE'
+description: 'Use Google Custom Search to search your site and/or any other sites.'
 core: 8.x
-package: Search
 dependencies:
   - search
+scripts:
+  - google_cse.js
+stylesheets:
+  all:
+    - google_cse.css
+version: 8.x-1.x
+project: google_cse
+datestamp: '1464283856'
+type: module

@@ -1,0 +1,66 @@
+google_cse.settings:
+  type: mapping
+  label: Settings
+  mapping:
+    google_cse_custom_results_display:
+      type: string
+    google_cse_results_prefix:
+      type: string
+    google_cse_results_suffix:
+      type: string
+    google_cse_cx:
+      type: string
+    google_cse_safe:
+      type: string
+    google_cse_results_display:
+      type: string
+    google_cse_cof_here:
+      type: string
+    google_cse_domain:
+      type: string
+    google_cse_cof_google:
+      type: string
+    google_cse_results_searchbox_width:
+      type: integer
+    google_cse_adv_results_per_page:
+      type: integer
+    google_cse_limit_domain:
+      type: string
+    google_cse_results_display_images:
+      type: boolean
+    google_cse_adv_language:
+      type: string
+    google_cse_adv_maximum_results:
+      type: integer
+    google_cse_results_tab:
+      type: string
+    google_cse_results_width:
+      type: integer
+    google_cse_sitesearch:
+      type: string
+    google_cse_sitesearch_form:
+      type: string
+    google_cse_sitesearch_option:
+      type: string
+    google_cse_sitesearch_default:
+      type: integer
+    google_cse_cr:
+      type: string
+    google_cse_gl:
+      type: string
+    google_cse_hl:
+      type: string
+    google_cse_locale_hl:
+      type: string
+    google_cse_ie:
+      type: string
+    google_cse_lr:
+      type: string
+    google_cse_locale_lr:
+      type: string
+    google_cse_oe:
+      type: string
+    google_cse_custom_css:
+      type: string
+    google_cse_use_adv:
+      type: integer
