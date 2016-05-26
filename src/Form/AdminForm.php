@@ -7,6 +7,8 @@ use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Configure Google CSE global settings.
+ *
+ * @todo Move part of settings to search plugin configuration.
  */
 class AdminForm extends ConfigFormBase {
 
