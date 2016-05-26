@@ -162,47 +162,10 @@ function google_cse_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_block_info().
- */
-function google_cse_block_info() {
-  return array(
-    'google_cse' => array(
-      'info' => t('Google CSE'),
-    ),
-  );
-}
-
-/**
- * Implements hook_block_view().
- */
-function google_cse_block_view($delta = '') {
-  if (\Drupal::currentUser()->hasPermission('search Google CSE')) {
-    switch ($delta) {
-      case 'google_cse':
-        return array(
-          'subject' => t('Search'),
-          'content' => array('#theme' => 'google_cse_results', '#form' => TRUE),
-        );
-    }
-  }
-}
-
-/**
  * Return the Google CSE tab title, either a setting or a translation.
  */
 function google_cse_results_tab() {
   return ($var = \Drupal::config('google_cse.settings')->get('google_cse_results_tab')) ? $var : t('Google');
-}
-
-/**
- * Implements hook_perm().
- */
-function google_cse_permission() {
-  return array(
-    'search Google CSE' => array(
-      'title' => t('Use Google CSE search'),
-    ),
-  );
 }
 
 /**

@@ -8,7 +8,3 @@ scripts:
 stylesheets:
   all:
     - google_cse.css
-version: 8.x-1.x
-project: google_cse
-datestamp: '1464283856'
-type: module
