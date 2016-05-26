@@ -1,0 +1,5 @@
+google_cse.settings_form:
+  title: 'Google CSE settings'
+  description: 'Configure API endpoints access.'
+  route_name: google_cse.settings_form
+  parent: system.admin_config_services

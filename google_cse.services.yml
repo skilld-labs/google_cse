@@ -1,6 +1,0 @@
-services:
-  init_subscriber:
-    class: Drupal\google_cse\EventSubscriber\InitSubscriber
-    tags:
-      -
-        name: event_subscriber

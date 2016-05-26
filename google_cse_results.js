@@ -19,7 +19,7 @@ window.__gcse = {
 // The Google CSE standard code, just changed to pick up the SE if
 // ("cx") from Drupal.settings.
 (function() {
-  var cx = Drupal.settings.googleCSE.cx;
+  var cx = drupalSettings.googleCSE.cx;
   var gcse = document.createElement('script');
   gcse.type = 'text/javascript';
   gcse.async = true;
