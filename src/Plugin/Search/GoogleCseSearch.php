@@ -3,8 +3,11 @@
 namespace Drupal\google_cse\Plugin\Search;
 
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Access\AccessibleInterface;
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\UrlGeneratorTrait;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\search\Plugin\ConfigurableSearchPluginBase;
 
@@ -16,7 +19,7 @@ use Drupal\search\Plugin\ConfigurableSearchPluginBase;
  *   title = @Translation("Google CSE search type")
  * )
  */
-class GoogleCseSearch extends ConfigurableSearchPluginBase {
+class GoogleCseSearch extends ConfigurableSearchPluginBase implements AccessibleInterface {
 
   use UrlGeneratorTrait;
 
@@ -38,6 +41,14 @@ class GoogleCseSearch extends ConfigurableSearchPluginBase {
    */
   public function isSearchExecutable() {
     return (bool) ($this->keywords || !empty($this->searchParameters['search_conditions']));
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function access($operation = 'view', AccountInterface $account = NULL, $return_as_object = FALSE) {
+    $result = AccessResult::allowedIf(!empty($account) && $account->hasPermission('search Google CSE'))->cachePerPermissions();
+    return $return_as_object ? $result : $result->isAllowed();
   }
 
   /**

@@ -25,6 +25,8 @@ function google_cse_help($route_name, RouteMatchInterface $route_match) {
 
 /**
  * Builds a query array based on Google CSE settings.
+ *
+ * @todo Convert according https://www.drupal.org/node/2083471
  */
 function google_cse_build_query($keys, $sitesearch = NULL, $here = TRUE) {
   if (!\Drupal::config('google_cse.settings')->get('use_adv')) {
@@ -99,15 +101,6 @@ function google_cse_search_page($results) {
   }
 
   return $output;
-}
-
-/**
- * Implements hook_search_access().
- *
- * @todo Convert according https://www.drupal.org/node/2083471
- */
-function google_cse_search_access() {
-  return \Drupal::currentUser()->hasPermission('search Google CSE');
 }
 
 /**
