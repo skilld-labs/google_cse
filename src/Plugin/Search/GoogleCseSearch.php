@@ -51,6 +51,24 @@ class GoogleCseSearch extends ConfigurableSearchPluginBase {
    */
   public function execute() {
     // @todo Implement properly.
+    $keys = $this->keywords;
+    $conditions = $this->searchParameters['search_conditions'];
+    if (\Drupal::config('google_cse.settings')->get('use_adv')) {
+      // Firstly, load the needed modules.
+      module_load_include('inc', 'google_cse', 'google_cse_adv/google_cse_adv');
+      // And get the google results.
+      $response = google_cse_adv_service($keys);
+      $results = google_cse_adv_response_results($response[0], $keys, $conditions);
+
+      // Allow other modules to alter the keys.
+      \Drupal::moduleHandler()->alter('google_cse_searched_keys', $keys);
+
+      // Allow other modules to alter the results.
+      \Drupal::moduleHandler()->alter('google_cse_searched_results', $results);
+
+      return $results;
+    }
+
     $results = [];
     if (!$this->isSearchExecutable()) {
       return $results;

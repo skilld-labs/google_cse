@@ -5,45 +5,22 @@
  * Display a Google Custom Search Engine (CSE) on your site.
  */
 
-/**
- * Implements hook_search_info().
- */
-function google_cse_search_info() {
-  return array(
-    'title' => google_cse_results_tab(),
-    'path' => 'google',
-    'conditions_callback' => 'google_cse_conditions_callback',
-  );
-}
+use Drupal\Core\Routing\RouteMatchInterface;
 
 /**
- * Search conditions callback.
+ * Implements hook_help().
  */
-function google_cse_conditions_callback($keys) {
-  $conditions = array();
-  return $conditions;
-}
+function google_cse_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the google_cse module.
+    case 'help.page.google_cse':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Use Google Custom Search to search your site and/or any other sites.') . '</p>';
+      return $output;
 
-/**
- * Implements hook_search_execute().
- */
-function google_cse_search_execute($keys = NULL, $conditions = NULL) {
-  if (\Drupal::config('google_cse.settings')->get('use_adv')) {
-    // Firstly, load the needed modules.
-    module_load_include('inc', 'google_cse', 'google_cse_adv/google_cse_adv');
-    // And get the google results.
-    $response = google_cse_adv_service($keys);
-    $results = google_cse_adv_response_results($response[0], $keys, $conditions);
-
-    // Allow other modules to alter the keys.
-    \Drupal::moduleHandler()->alter('google_cse_searched_keys', $keys);
-
-    // Allow other modules to alter the results.
-    \Drupal::moduleHandler()->alter('google_cse_searched_results', $results);
-
-    return $results;
+    default:
   }
-
 }
 
 /**
@@ -125,15 +102,9 @@ function google_cse_search_page($results) {
 }
 
 /**
- * Implements hook_search_admin().
- */
-function google_cse_search_admin() {
-  module_load_include('admin.inc', 'google_cse');
-  return google_cse_admin_settings();
-}
-
-/**
  * Implements hook_search_access().
+ *
+ * @todo Convert according https://www.drupal.org/node/2083471
  */
 function google_cse_search_access() {
   return \Drupal::currentUser()->hasPermission('search Google CSE');
