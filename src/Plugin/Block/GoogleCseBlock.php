@@ -96,6 +96,7 @@ class GoogleCseBlock extends BlockBase implements ContainerFactoryPluginInterfac
       '#attached' => [
         'library' => [
           'core/drupalSettings',
+          'google_cse/googleCseWatermarkLibrary',
         ],
         'drupalSettings' => [
           'googleCSE' => [

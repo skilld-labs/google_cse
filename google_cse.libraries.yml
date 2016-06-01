@@ -1,0 +1,12 @@
+googleCseWatermarkLibrary:
+  css:
+    theme:
+      css/google_cse.css: {}
+  js:
+    js/google_cse.js: {}
+googleCseResultsLibrary:
+  css:
+    theme:
+      css/google_cse.css: {}
+  js:
+    js/google_cse_results.js: {}
