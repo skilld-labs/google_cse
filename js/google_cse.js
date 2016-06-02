@@ -6,7 +6,7 @@
         var googleCSEImageUrl = 'images/google_custom_search_watermark.gif';
         var language = drupalSettings.googleCSE.language ? '' : drupalSettings.googleCSE.language + '/';
         return value ? '' : ' url(' + googleCSEBaseUrl + language + googleCSEImageUrl + ') left no-repeat';
-      }
+      };
       var onFocus = function(e) {
         $(e.target).css('background', '#ffffff');
       };
@@ -16,7 +16,7 @@
       var googleCSEWatermark = function (selector) {
         var form = jQuery(selector);
         var searchInputs = $('[data-drupal-selector="edit-keys"]', form);
-        if (navigator.platform == 'Win32') {
+        if (navigator.platform === 'Win32') {
           searchInputs.css('style', 'border: 1px solid #7e9db9; padding: 2px;');
         }
 
