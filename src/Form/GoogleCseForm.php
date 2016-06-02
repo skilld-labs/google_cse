@@ -28,7 +28,7 @@ class GoogleCseForm extends FormBase {
     );
     $form['submit'] = array(
       '#type' => 'submit',
-      '#value' => 'Search',
+      '#value' => $this->t('Search'),
     );
     return $form;
   }
@@ -39,8 +39,7 @@ class GoogleCseForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $config = \Drupal::configFactory()->get('GoogleCSE.settings');
     $path = '/search/' . $config->get('GoogleCSE.wildcard') . '/' . $form_state->getValues()['keys'];
-    $response = new RedirectResponse($path);
-    $response->send();
+    $form_state->setRedirectUrl($path);
   }
 
 }

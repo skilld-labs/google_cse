@@ -3,11 +3,6 @@
     attach: function (context, settings) {
       var googleCSEWatermark = function (id) {
         var f = $(id)[0];
-        if (f) {
-          console.log(f);
-          console.log(f.query);
-          console.log(f['edit-keys']);
-        }
         if (f && (f.query || f['edit-search-block-form--2'] || f['edit-keys'] || f['[data-drupal-selector="search-block-form"]'])) {
           var q = f.query ? f.query : (f['edit-search-block-form--2'] ? f['edit-search-block-form--2'] : f['edit-keys']);
           var n = navigator;
@@ -25,9 +20,7 @@
           };
           q.onfocus = f;
           q.onblur = b;
-  //      if (!/[&?]query=[^&]/.test(l.search)) {
           b();
-  //      }
         }
       };
       googleCSEWatermark('[data-drupal-selector="search-block-form"] [data-drupal-form-fields="edit-keys"]');
