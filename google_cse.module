@@ -175,6 +175,7 @@ function google_cse_sitesearch_form(&$form) {
     if ($form['sitesearch']['#type'] == 'select' && isset($form['sa'])) {
       $form['sa']['#weight'] = 10;
     }
+    $form['#attributes']['class'][] = 'google-cse';
   }
 }
 
@@ -217,9 +218,9 @@ function google_cse_sitesearch_default() {
  * Adds custom submit handler for search form.
  */
 function google_cse_form_search_form_alter(&$form, &$form_state, $form_id) {
-  if ($form['module']['#value'] == 'google_cse') {
+  $repo = \Drupal::service('search.search_page_repository');
+  if ($repo->getDefaultSearchPage() == 'google_cse_search_type') {
     google_cse_sitesearch_form($form);
-    $form['#attributes']['class'][] = 'google-cse';
   }
 }
 
@@ -230,8 +231,20 @@ function google_cse_form_search_block_form_alter(&$form, &$form_state, $form_id)
   /** @var \Drupal\search\SearchPageRepositoryInterface $repo */
   $repo = \Drupal::service('search.search_page_repository');
   if ($repo->getDefaultSearchPage() == 'google_cse_search_type') {
+    $config = \Drupal::config('google_cse.settings'); 
     google_cse_sitesearch_form($form);
-    $form['#attributes']['class'][] = 'google-cse';
+    $form['#attached']['library'] = [
+      'core/drupalSettings',
+      'google_cse/googleCseWatermarkLibrary',
+    ];
+    $form['#attached']['drupalSettings'] = [
+      'googleCSE' => [
+        'cx' => $config->get('cx'),
+        'language' => google_cse_language(),
+        'resultsWidth' => intval($config->get('google_cse_results_width', 600)),
+        'domain' => $config->get('google_cse_domain', 'www.google.com'),
+      ],
+    ];
   }
 }
 
