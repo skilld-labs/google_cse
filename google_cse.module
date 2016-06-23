@@ -218,7 +218,8 @@ function google_cse_sitesearch_default() {
  * Adds custom submit handler for search form.
  */
 function google_cse_form_search_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'search_form') {
+  $repo = \Drupal::service('search.search_page_repository');
+  if ($repo->getDefaultSearchPage() == 'google_cse_search_type') {
     google_cse_sitesearch_form($form);
   }
 }
